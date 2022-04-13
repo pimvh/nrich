@@ -1,4 +1,4 @@
-.txt
-.json
+*.txt
+*.json
 venv
 
