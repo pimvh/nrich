@@ -1,6 +1,6 @@
 # nrich.py
 
-Inspired on the [nrich](https://gitlab.com/shodan-public/nrich) tool developed by shodan, but alas that tool was in Ruby.
+Inspired on the [nrich](https://gitlab.com/shodan-public/nrich) tool developed by shodan, but alas that tool was in Rust.
 
 Thus I have made a Python3 port of that tool, to make it more includable in other projects.
 

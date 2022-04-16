@@ -140,7 +140,7 @@ async def main(tasks : list):
                         default=None)
     parser.add_argument('-output-type', '-t', choices=['json', 'str'], default='str',  
                         help='Format to output in')
-    parser.add_argument('-skip_missing', '-s', default=True, help="skip IPs with no information on them.")
+    parser.add_argument('-skip_missing', '-s', action="store_false", default=True, help="skip IPs with no information on them.")
     parser.add_argument('-verbose', action="store_true", help="verbose output")
 
     args = parser.parse_args()
@@ -149,7 +149,7 @@ async def main(tasks : list):
         print('creating queue and IPlookup object...')
 
     queue = asyncio.Queue()
-    ip_lookup = ShodanLookupper(queue, args.output_file, args.output_type) 
+    ip_lookup = ShodanLookupper(queue, args.output_file, args.output_type, args.skip_missing) 
     
     if args.verbose:
         print('creating tasks...')
@@ -162,12 +162,6 @@ async def main(tasks : list):
     # sleep shortly to avoid directly closing an empty queue.
     await asyncio.sleep(0.1)    
     await queue.join()
-
-    # if args.output_file:
-    #     with args.output_file as f:
-    #         json.dump(ip_lookup.out, f)
-
-    
 
     await asyncio.gather(*tasks, return_exceptions=True)
 
