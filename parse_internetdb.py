@@ -14,7 +14,7 @@ def main():
          "tags":        [],
          "vulns":       []
         },
-    
+
     """
 
     parser = argparse.ArgumentParser()
@@ -26,7 +26,7 @@ def main():
 
     with open('out.json') as f:
         shodan = json.load(f)
-    
+
     for i, item in enumerate(shodan):
 
         if item.get('vulns'):
@@ -34,11 +34,11 @@ def main():
 
         if ip := item.get('ip'):
             if ip == 'YOUR IP':
-               pprint.pprint(item, '\n') 
+               pprint.pprint(item, '\n')
 
         if ports := item.get('ports'):
             if 3389 in ports:
-               pprint.pprint(item, '\n') 
+               pprint.pprint(item, '\n')
 
 if __name__ == "__main__":
     main()

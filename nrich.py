@@ -41,7 +41,7 @@ class ShodanLookupper():
 
         first = True
 
-        if self.output_file:   
+        if self.output_file:
             f = open(self.output_file, "w+")
 
             if self.output_type == 'json':
@@ -51,14 +51,14 @@ class ShodanLookupper():
             f = None
 
         async with aiohttp.ClientSession() as session:
-             
+
             while not self.ips.empty():
 
                 try:
                     ip = self.ips.get_nowait()
                     resp = await session.get(self.shodan_url + ip,
                                              headers={'User-Agent': 'nrich'})
-                
+
                     resp = await resp.json()
 
                     if self.skipmissing:
@@ -70,7 +70,7 @@ class ShodanLookupper():
 
                     if self.output_type == 'str':
                         for key, value in resp.items():
-                            
+
                             if key == 'hostnames':
                                 tabs = '\t'
                             else:
@@ -100,13 +100,13 @@ class ShodanLookupper():
                     break
 
                 finally:
-                    self.ips.task_done()   
+                    self.ips.task_done()
 
             if self.output_type == 'json':
                 f.write(']')
 
             if f:
-                f.close()                 
+                f.close()
 
 
 async def ip_reader(ip_file, queue : asyncio.Queue):
@@ -120,12 +120,12 @@ async def ip_reader(ip_file, queue : asyncio.Queue):
             try: 
                 network = ipaddress.ip_network(ip.strip())
 
-                for ip in network:                
+                for ip in network:
                     queue.put_nowait(str(ip))
 
             except ValueError:
                 continue
-    
+
 
 async def main(tasks : list):
     """ main function to retrieve IP information from the shodan internetdb
@@ -138,7 +138,7 @@ async def main(tasks : list):
                         help="File to parse IPs from, if not given parse from stdin")
     parser.add_argument('-output-file', '-o', type=str, help="file to write IPs to",
                         default=None)
-    parser.add_argument('-output-type', '-t', choices=['json', 'str'], default='str',  
+    parser.add_argument('-output-type', '-t', choices=['json', 'str'], default='str',
                         help='Format to output in')
     parser.add_argument('-skip_missing', '-s', action="store_false", default=True, help="skip IPs with no information on them.")
     parser.add_argument('-verbose', action="store_true", help="verbose output")
@@ -150,7 +150,7 @@ async def main(tasks : list):
 
     queue = asyncio.Queue()
     ip_lookup = ShodanLookupper(queue, args.output_file, args.output_type, args.skip_missing) 
-    
+
     if args.verbose:
         print('creating tasks...')
 
@@ -160,7 +160,7 @@ async def main(tasks : list):
     tasks = [input_task, lookup_task]
 
     # sleep shortly to avoid directly closing an empty queue.
-    await asyncio.sleep(0.1)    
+    await asyncio.sleep(0.1)
     await queue.join()
 
     await asyncio.gather(*tasks, return_exceptions=True)
