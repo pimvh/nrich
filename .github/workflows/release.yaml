@@ -33,6 +33,6 @@ jobs:
 
       - name: run development target
         run: |
-          nix develop '.#poetry' --keep PIPY_API_TOKEN
+          nix develop '.#poetry' --ignore-environment --keep PIPY_API_TOKEN
         env:
           PIPY_API_TOKEN: ${{ secrets.PIPY_API_TOKEN }}
