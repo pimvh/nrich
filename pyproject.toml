@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "nrich"
+version = "0.1.0"
+description = "Python equivalant of the rust nrich program. Simple async Python program to interact with the Shodan InternetDB API."
+authors = ["pimvh"]
+license = "GPLv3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.11.4"
+aiohttp = "3.8.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

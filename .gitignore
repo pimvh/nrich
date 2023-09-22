@@ -1,5 +1,5 @@
 *.txt
 *.json
-!requirements.txt
-venv
-
+.direnv
+.envrc
+result
