@@ -53,11 +53,11 @@
 
             # at run time
             buildInputs = with pkgs; [
+
+              poetry
               # use this package itself
               nrich
 
-              # poetry
-              poetry
               python311
               python311Packages.aiohttp
             ];
@@ -66,6 +66,8 @@
               # Make sure poetry's venv uses the configured python executable.
               ${pkgs.poetry}/bin/poetry env use --no-interaction ${pkgs.python311}/bin/python3
               ${pkgs.poetry}/bin/poetry install --no-interaction
+
+              ${pkgs.poetry}/bin/poetry publish -u '__token__' -p $PIPY_API_TOKEN;
             '';
           });
 
