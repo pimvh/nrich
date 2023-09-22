@@ -25,17 +25,14 @@ jobs:
           # enable flakes
           echo "experimental-features = nix-command flakes" >> "$workdir/nix.conf"
 
-          sh <(curl -L https://nixos.org/nix/install) --daemon --nix-extra-conf-file "$workdir/nix.conf"
+          sh <(curl -L https://nixos.org/nix/install) --daemon --nix-extra-conf-file "$workdir/nix.conf" --no-channel-add --daemon-user-count "$(python3 -c 'import multiprocessing as mp; print(mp.cpu_count() * 2)')"
 
           # Set required paths to find nix
           echo "/nix/var/nix/profiles/default/bin" >> "$GITHUB_PATH"
           echo "$HOME/.nix-profile/bin" >> "$GITHUB_PATH"
 
-          if [[ -n "${INPUT_NIX_PATH:-}" ]]; then
-            echo "NIX_PATH=${INPUT_NIX_PATH}" >> "$GITHUB_ENV"
-          fi
-
       - name: run development target
         run: |
-          nix develop '.#poetry'
-          poetry publish --build -u '__token__' -p ${{ secrets.PIPY_API_TOKEN }}
+          nix develop '.#poetry' --keep PIPY_API_TOKEN
+        env:
+          PIPY_API_TOKEN: ${{ PIPY_API_TOKEN }}
