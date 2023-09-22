@@ -1,0 +1,19 @@
+# terraform managed
+---
+name: Build and push the current package
+
+on:
+  release:
+    types: [created, edited, published, released]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: install nix
+        run: |
+          sh <(curl -L https://nixos.org/nix/install) --daemon
+
+      - name: run development target
+        run: |
+          nix develop '.#poetry' -c "poetry publish --build -u __token__ -p ${{ secrets.PIPY_API_TOKEN }}"
