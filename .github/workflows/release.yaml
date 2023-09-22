@@ -23,7 +23,7 @@ jobs:
           trap 'rm -rf "$workdir"' EXIT
 
           # enable flakes
-          echo "experimental-features = nix-command flake" >> "$workdir/nix.conf"
+          echo "experimental-features = nix-command flakes" >> "$workdir/nix.conf"
 
           sh <(curl -L https://nixos.org/nix/install) --daemon --nix-extra-conf-file "$workdir/nix.conf"
 
