@@ -38,4 +38,4 @@ jobs:
       - name: run development target
         run: |
           nix develop '.#poetry'
-          poetry publish --build -u __token__ -p ${{ secrets.PIPY_API_TOKEN }}"
+          poetry publish --build -u '__token__' -p ${{ secrets.PIPY_API_TOKEN }}
