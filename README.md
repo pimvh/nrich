@@ -1,12 +1,10 @@
-# nrich.py
+# Nrich
 
-Python equivalent of the rust [nrich](https://gitlab.com/shodan-public/nrich) program, developed by Shodan. Simple async Python program to interact with the Shodan InternetDB API.
+Python equivalent of the Rust [nrich](https://gitlab.com/shodan-public/nrich) program, developed by Shodan. Simple async Python program to interact with the Shodan InternetDB API.
 
 In addition to the official tool, you can specify subnets, and this tool just unpacks them.
 
 ## Usage
-
-### nrich.py
 
 `nrich --help`:
 
@@ -24,21 +22,45 @@ options:
   -skip_missing, -s     skip IPs with no information on them.
 ```
 
+### Standalone
+
+To run this program as a standalone tool, run:
+
+```
+python3 -m nrich <your command>
+```
+
+For example, you can get the InternetDB information for a single IP, with the following command:
+
+```
+echo -e "<< your IP HERE>>\n" | python3 -m nrich
+INFO:root:creating queue and IPlookup object...
+INFO:root:creating tasks...
+INFO:ShodanLookupper:Starting session...
+INFO:root:running tasks...
+INFO:ShodanLookupper:Got response: ShodanResult(ip=None, cpes=[], hostnames=[], ports=[], tags=[], vulns=[], detail='No information available', empty=False)...
+{"ip": null, "cpes": [], "hostnames": [], "ports": [], "tags": [], "vulns": [], "detail": "No information available", "empty": false}
+```
+
+Any stdout piped input will be consumed by Shodan, when it is a file that contains IPs, line by line. Refer to the `--help` statement for usage when you want to consume files instead.
+
 ### parse_internetdb.py
 
 Example script to parse the shodan internet.db output
 
-# Installation
+## Installation
 
-Make a virtual environment and install dependencies, like so:
+This package is available via PyPi. In order to install you can use the following command
 
 ```
-python3 -m venv venv
-source ./venv/bin/activate
-pip install -r requirements.txt
+pip install nrich
 ```
 
-## Nix users
+### Nix users
+
+For users of nix a flake is avaible. Have a look at flake.nix for the targets.
+
+If you just want a shell where the package is available, run:
 
 ```
 nix develop
