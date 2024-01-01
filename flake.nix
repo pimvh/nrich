@@ -3,7 +3,7 @@
   description = "Flake to build the nrich package in this repo, as well as run devShells for it";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
@@ -20,15 +20,16 @@
 
     in
     {
-      packages = forAllSystems(system:
+      packages = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-        in rec {
+        in
+        rec {
           nrich = pkgs.callPackage ./nrich.nix { };
 
           # `nix build` needs default target
           default = nrich;
-      });
+        });
 
       # nix fmt
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixpkgs-fmt);

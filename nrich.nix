@@ -1,9 +1,9 @@
-{
-python311Packages,
-lib,
+{ python311Packages
+, lib
+,
 }: python311Packages.buildPythonPackage rec {
   pname = "nrich";
-  version = "0.1.0";
+  version = "0.1.1";
   src = ./.;
   format = "pyproject";
 
