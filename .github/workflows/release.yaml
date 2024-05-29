@@ -13,12 +13,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      # largely taken from cachix/install-nix-action
       - name: install Nix
         uses: cachix/install-nix-action@v27
 
       - name: publish package with poetry
         run: |
-          nix develop .#poetry --ignore-environment --keep PIPY_API_TOKEN
+          nix develop .#poetry --ignore-environment --keep PIPY_API_TOKEN --command ./scripts/publish.sh
         env:
           PIPY_API_TOKEN: ${{ secrets.PIPY_API_TOKEN }}
