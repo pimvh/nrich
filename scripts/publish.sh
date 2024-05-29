@@ -5,4 +5,4 @@ poetry -v env use --no-interaction python3
 poetry -v install --no-interaction
 
 echo 'publishing package using poetry...'
-poetry -v publish --build -u '__token__' -p $PIPY_API_TOKEN;
+poetry -v publish --build --skip-existing -u '__token__' -p $PIPY_API_TOKEN;
