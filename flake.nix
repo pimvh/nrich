@@ -44,6 +44,7 @@
               })
             ];
           };
+          # lib = pkgs.lib;
         in
         {
           poetry = pkgs.mkShell ({
@@ -62,16 +63,7 @@
               python311Packages.aiohttp
             ];
 
-            shellHook = ''
-              set -eo pipefail
-              # Make sure poetry's venv uses the configured python executable.
-              echo 'running poetry...'
-              ${pkgs.poetry}/bin/poetry -v env use --no-interaction ${pkgs.python311}/bin/python3
-              ${pkgs.poetry}/bin/poetry -v install --no-interaction
-
-              echo 'publishing package using poetry...'
-              ${pkgs.poetry}/bin/poetry -v publish --build -u '__token__' -p $PIPY_API_TOKEN;
-            '';
+            # shellHook = lib.readFile scripts/publish.sh;
           });
 
           default = pkgs.mkShell ({
